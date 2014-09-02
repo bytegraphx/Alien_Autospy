@@ -18,16 +18,16 @@ const int RELAY1 =  10;      // the number of the Relay pin
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(20, NeoPixel, NEO_RGB + NEO_KHZ800);
 
 static char* armMp3Names[]={
-  "3.mp3", "1.mp3"};
+  "1.mp3"};
 
 static char* legMp3Names[]={
-  "2.mp3", "4.mp3"};
+  "2.mp3"};
 
 static char* heartMp3Names[]={
-  "5.mp3", "1.mp3"};
+  "3.mp3"};
 
 static char* boneMp3Names[]={
-  "4.mp3", "2.mp3"};
+  "4.mp3"};
 
 // for the idle state
 static char* idleMp3Names[]={
