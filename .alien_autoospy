@@ -1,4 +1,3 @@
-@@ -0,0 +1,313 @@
 #include <SD.h>
 #include <SPI.h>
 #include <Mp3Player.h>
@@ -15,7 +14,7 @@ static Mp3Player mp3p;
 #define NeoPixel 5
 const int RELAY1 =  10;      // the number of the Relay pin
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(20, NeoPixel, NEO_RGB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(24, NeoPixel, NEO_GRB + NEO_KHZ800);
 
 static char* armMp3Names[]={
   "1.mp3"};
@@ -60,15 +59,15 @@ static const unsigned char vol=0;      // 0 is loudest, 128 is quietest;
 // /////////////////////////////////////////////////
 // /////////////////////////////////////////////////
 void setup() {
-
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+  
   mp3p.bInit();
   mp3p.SetVolume(vol,vol); // stereo left and right
   Serial.begin(115200);
   Serial.print("Volume is ");  
   Serial.println(vol);
-  strip.begin();
-  strip.show(); // Initialize all pixels to 'off'
-
+  
   // it turns out we did not need external resistors and we could have used 
   // pinmode(pinArm, INPUT_PULLUP); which would enable an internal resistor!
   pinMode(pinArm, INPUT_PULLUP);
@@ -90,19 +89,19 @@ void setup() {
 // /////////////////////////////////////////////////
 // /////////////////////////////////////////////////
 // costants for managing the loop
-static const long millisChasePeriod = 100; // a tenth of a second
-static const long millisRunRelayDuration = 250; // a quarter of a second
-static const long millisInhibitRelayDuration = 1000; // one second
+static const long millisChasePeriod = 2000; // a twp seconds
+static const long millisRunRelayDuration = 100; // tenth of a second
+static const long millisInhibitRelayDuration = 0; // anything other then 0 makes motor sputter. 
 static const long lPlayOnceEvery = 20000; // bigger means less background groaning
 
-#define COLOR_ARM strip.Color(80, 80, 127)
-#define COLOR_LEG strip.Color(0, 127, 127)
-#define COLOR_HEART strip.Color(127, 127, 0)
-#define COLOR_BONE strip.Color(127, 0, 127)
-#define COLOR_IDLE strip.Color(127, 127, 127)
-#define COLOR_OFF_IDLE strip.Color(0, 0, 0)
-#define COLOR_OFF_CONTACT strip.Color(80, 80, 80)
-#define LIGHTS_IN_CHASE 3 /* any number 1 or bigger */
+#define COLOR_ARM strip.Color(0,0,0)
+#define COLOR_LEG strip.Color(0, 0, 0)
+#define COLOR_HEART strip.Color(0, 0, 0)
+#define COLOR_BONE strip.Color(0, 0, 0)
+#define COLOR_IDLE strip.Color(255, 0, 255) // should be Purple
+#define COLOR_OFF_IDLE strip.Color(255,255,255) // should be white 
+#define COLOR_OFF_CONTACT strip.Color(255,0,0) // should be Reb
+#define LIGHTS_IN_CHASE 2 /* any number 1 or bigger */
 enum ePlay {
   kArm,
   kLeg,
@@ -305,10 +304,3 @@ void stripSetPattern(int pixelsBeforeRepeat, int pixelStartThisTime, int colorOf
   strip.show();
   //Serial.println();
 }
-
-
-
-
-
-
-
